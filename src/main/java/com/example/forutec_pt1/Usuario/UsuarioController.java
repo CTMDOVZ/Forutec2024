@@ -13,9 +13,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public List<UsuarioDTO> getAllUsuarios() {
-        return usuarioService.getAllUsuarios();
-    }
+    public List<UsuarioDTO> getAllUsuarios() { return usuarioService.getAllUsuarios(); }
 
     @GetMapping("/{id}")
     public UsuarioDTO getUsuarioById(@PathVariable Long id) {

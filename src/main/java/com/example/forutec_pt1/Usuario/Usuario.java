@@ -1,7 +1,10 @@
 package com.example.forutec_pt1.Usuario;
 
-import jakarta.persistence.*;
+import com.example.forutec_pt1.Publicacion.Publicacion;
+import com.example.forutec_pt1.Suscripcion.Suscripcion;
 
+import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 public class Usuario {
@@ -17,6 +20,11 @@ public class Usuario {
 
     private String contrasena;
 
+    @OneToMany(mappedBy = "usuario")
+    private List<Publicacion> publicaciones;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<Suscripcion> suscripciones;
 
     public Long getId() {
         return id;
@@ -57,4 +65,12 @@ public class Usuario {
     public void setContrasena(String contrasena) {
         this.contrasena = contrasena;
     }
+
+    public List<Publicacion> getPublicaciones() {return publicaciones; }
+
+    public void setPublicaciones(List<Publicacion> publicaciones) {this.publicaciones = publicaciones; }
+
+    public List<Suscripcion> getSuscripciones() {return suscripciones; }
+
+    public void setSuscripciones(List<Suscripcion> suscripciones) {this.suscripciones = suscripciones; }
 }
