@@ -2,10 +2,12 @@ package com.example.forutec_pt1.Publicacion;
 
 import com.example.forutec_pt1.ResourceNotFoundException;
 import com.example.forutec_pt1.Usuario.Usuario;
+import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +16,9 @@ public class PublicacionService {
 
     @Autowired
     private PublicacionRepository publicacionRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public List<PublicacionDTO> getAllPublicaciones() {
         return publicacionRepository.findAll().stream()
@@ -28,9 +33,23 @@ public class PublicacionService {
     }
 
     public PublicacionDTO savePublicacion(PublicacionDTO publicacionDTO) {
-        Publicacion publicacion = convertToEntity(publicacionDTO);
+        Publicacion publicacion = new Publicacion();
+        publicacion.setContenido(publicacionDTO.getContenido());
+
+        // Convertir String a LocalDateTime
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        LocalDateTime fechaHoraPublicacion = LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion(), formatter);
+        publicacion.setFechaHoraPublicacion(fechaHoraPublicacion);
+
+        // Asignar el usuario a la publicación
+        Usuario usuario = usuarioRepository.findById(publicacionDTO.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+        publicacion.setUsuario(usuario);
+
         Publicacion savedPublicacion = publicacionRepository.save(publicacion);
-        return convertToDTO(savedPublicacion);
+
+        publicacionDTO.setId(savedPublicacion.getId());
+        return publicacionDTO;
     }
 
     public void deletePublicacion(Long id) {

@@ -1,6 +1,7 @@
 package com.example.forutec_pt1.Suscripcion;
 
 import com.example.forutec_pt1.Categoria.Categoria;
+import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Usuario.Usuario;
 import jakarta.persistence.*;
 
@@ -18,6 +19,10 @@ public class Suscripcion {
     @ManyToOne
     @JoinColumn(name = "categoria_id")
     private Categoria categoria;
+
+    @ManyToOne
+    @JoinColumn(name = "publicacion_id")
+    private Publicacion publicacion;
 
     // Getters y setters
     public Long getId() {
@@ -43,4 +48,8 @@ public class Suscripcion {
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
     }
+
+    public Publicacion getPublicacion() {return publicacion;}
+
+    public void setPublicacion(Publicacion publicacion) {this.publicacion = publicacion; }
 }

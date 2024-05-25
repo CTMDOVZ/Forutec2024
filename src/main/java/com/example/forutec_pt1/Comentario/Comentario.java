@@ -2,6 +2,7 @@ package com.example.forutec_pt1.Comentario;
 
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 
@@ -19,10 +20,12 @@ public class Comentario {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @JsonBackReference
     private Usuario usuario;
 
     @ManyToOne
     @JoinColumn(name = "publicacion_id")
+    @JsonBackReference
     private Publicacion publicacion;
 
     // Getters y setters
