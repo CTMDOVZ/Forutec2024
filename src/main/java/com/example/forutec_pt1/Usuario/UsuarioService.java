@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,6 +19,10 @@ public class UsuarioService {
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
+    public Usuario obtenerPorId2(Long id) {
+        Optional<Usuario> usuario = usuarioRepository.findById(id);
+        return usuario.orElse(null);
+    }
 
     public UsuarioDTO getUsuarioById(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
@@ -29,6 +34,9 @@ public class UsuarioService {
         Usuario usuario = convertToEntity(usuarioDTO);
         Usuario savedUsuario = usuarioRepository.save(usuario);
         return convertToDTO(savedUsuario);
+    }
+    public Usuario guardarUsuario(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
     public void deleteUsuario(Long id) {

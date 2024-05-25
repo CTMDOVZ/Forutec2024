@@ -1,6 +1,8 @@
 package com.example.forutec_pt1.Usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,10 +21,14 @@ public class UsuarioController {
     public UsuarioDTO getUsuarioById(@PathVariable Long id) {
         return usuarioService.getUsuarioById(id);
     }
-
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<Usuario> obtenerUsuarioPorId2(@PathVariable Long id) {
+        Usuario usuario = usuarioService.obtenerPorId2(id);
+        return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
+    }
     @PostMapping
-    public UsuarioDTO saveUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        return usuarioService.saveUsuario(usuarioDTO);
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
+        return new ResponseEntity<>(usuarioService.guardarUsuario(usuario), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")

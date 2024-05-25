@@ -3,6 +3,7 @@ package com.example.forutec_pt1.Usuario;
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Suscripcion.Suscripcion;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class Usuario {
     private String contrasena;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference
     private List<Publicacion> publicaciones;
 
     @OneToMany(mappedBy = "usuario")
