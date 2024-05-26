@@ -17,6 +17,12 @@ public class UsuarioController {
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() { return usuarioService.getAllUsuarios(); }
 
+    @GetMapping("/hello")
+    public String hello() {
+        return "La nube funciona!";
+    }
+
+
     @GetMapping("/{id}")
     public UsuarioDTO getUsuarioById(@PathVariable Long id) {
         return usuarioService.getUsuarioById(id);
