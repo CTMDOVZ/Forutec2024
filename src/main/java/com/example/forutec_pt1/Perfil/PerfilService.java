@@ -1,6 +1,6 @@
 package com.example.forutec_pt1.Perfil;
 
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
 import com.example.forutec_pt1.Usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

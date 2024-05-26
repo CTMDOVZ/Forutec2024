@@ -1,7 +1,7 @@
 package com.example.forutec_pt1.Comentario;
 
 import com.example.forutec_pt1.Publicacion.Publicacion;
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
 import com.example.forutec_pt1.Suscripcion.Suscripcion;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Publicacion.PublicacionRepository;

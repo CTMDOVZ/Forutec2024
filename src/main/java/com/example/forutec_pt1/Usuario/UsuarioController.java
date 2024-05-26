@@ -13,26 +13,46 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-
     @GetMapping
-    public List<UsuarioDTO> getAllUsuarios() { return usuarioService.getAllUsuarios(); }
-
-    @GetMapping("/{id}")
-    public UsuarioDTO getUsuarioById(@PathVariable Long id) {
-        return usuarioService.getUsuarioById(id);
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
+        List<UsuarioDTO> usuarios = usuarioService.getAllUsuarios();
+        return new ResponseEntity<>(usuarios, HttpStatus.OK);
     }
+
+    @GetMapping("{id}")
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id) {
+        UsuarioDTO usuarioDTO = usuarioService.getUsuarioById(id);
+        return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<UsuarioDTO> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO savedUsuario = usuarioService.saveUsuario(usuarioDTO);
+        return new ResponseEntity<>(savedUsuario, HttpStatus.CREATED);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO updatedUsuario = usuarioService.updateUsuario(id, usuarioDTO);
+        return new ResponseEntity<>(updatedUsuario, HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+        usuarioService.deleteUsuario(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    @PatchMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> patchUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO patchedUsuario = usuarioService.patchUsuario(id, usuarioDTO);
+        return new ResponseEntity<>(patchedUsuario, HttpStatus.OK);
+    }
+
+
     @GetMapping("/profile/{id}")
     public ResponseEntity<Usuario> obtenerUsuarioPorId2(@PathVariable Long id) {
         Usuario usuario = usuarioService.obtenerPorId2(id);
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
-    @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-        return new ResponseEntity<>(usuarioService.guardarUsuario(usuario), HttpStatus.CREATED);
-    }
 
-    @DeleteMapping("/{id}")
-    public void deleteUsuario(@PathVariable Long id) {
-        usuarioService.deleteUsuario(id);
-    }
 }

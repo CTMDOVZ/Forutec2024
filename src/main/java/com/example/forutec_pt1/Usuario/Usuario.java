@@ -5,6 +5,8 @@ import com.example.forutec_pt1.Suscripcion.Suscripcion;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import org.springframework.lang.NonNull;
+
 import java.util.List;
 
 @Entity
@@ -18,7 +20,7 @@ public class Usuario {
 
     @Column(unique = true)
     private String correoInstitucional;
-
+    @NonNull
     private String contrasena;
 
     @OneToMany(mappedBy = "usuario")

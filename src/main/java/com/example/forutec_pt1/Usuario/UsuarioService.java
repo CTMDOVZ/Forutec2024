@@ -1,6 +1,6 @@
 package com.example.forutec_pt1.Usuario;
 
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,11 +38,37 @@ public class UsuarioService {
     public Usuario guardarUsuario(Usuario usuario) {
         return usuarioRepository.save(usuario);
     }
+    public UsuarioDTO updateUsuario(Long id, UsuarioDTO usuarioDTO) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
+        usuarioExistente.setNombre(usuarioDTO.getNombre());
+        usuarioExistente.setApellido(usuarioDTO.getApellido());
+        usuarioExistente.setCorreoInstitucional(usuarioDTO.getCorreoInstitucional());
+        Usuario updatedUsuario = usuarioRepository.save(usuarioExistente);
+        return convertToDTO(updatedUsuario);
+    }
 
     public void deleteUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
         usuarioRepository.delete(usuario);
+    }
+    public UsuarioDTO patchUsuario(Long id, UsuarioDTO usuarioDTO) {
+        Usuario usuarioExistente = usuarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
+
+        if (usuarioDTO.getNombre() != null) {
+            usuarioExistente.setNombre(usuarioDTO.getNombre());
+        }
+        if (usuarioDTO.getApellido() != null) {
+            usuarioExistente.setApellido(usuarioDTO.getApellido());
+        }
+        if (usuarioDTO.getCorreoInstitucional() != null) {
+            usuarioExistente.setCorreoInstitucional(usuarioDTO.getCorreoInstitucional());
+        }
+
+        Usuario patchedUsuario = usuarioRepository.save(usuarioExistente);
+        return convertToDTO(patchedUsuario);
     }
 
     private UsuarioDTO convertToDTO(Usuario usuario) {
