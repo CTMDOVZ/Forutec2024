@@ -7,6 +7,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Entity
@@ -17,7 +20,7 @@ public class Publicacion {
 
     private String contenido;
 
-    private LocalDateTime fechaHoraPublicacion;
+    private ZonedDateTime fechaHoraPublicacion;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
@@ -44,11 +47,11 @@ public class Publicacion {
         this.contenido = contenido;
     }
 
-    public LocalDateTime getFechaHoraPublicacion() {
+    public ZonedDateTime getFechaHoraPublicacion() {
         return fechaHoraPublicacion;
     }
 
-    public void setFechaHoraPublicacion(LocalDateTime fechaHoraPublicacion) {
+    public void setFechaHoraPublicacion(ZonedDateTime fechaHoraPublicacion) {
         this.fechaHoraPublicacion = fechaHoraPublicacion;
     }
 
@@ -66,6 +69,15 @@ public class Publicacion {
 
     public void setComentarios(List<Comentario> comentarios) {
         this.comentarios = comentarios;
+    }
+    @PrePersist
+    protected void onCreate() {
+        this.fechaHoraPublicacion = ZonedDateTime.now(ZoneId.of("America/Lima"));
+    }
+
+    public String getFormattedFechaHoraPublicacion() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss z");
+        return fechaHoraPublicacion.format(formatter);
     }
 
 }

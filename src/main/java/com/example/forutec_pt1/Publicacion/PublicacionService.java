@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,12 +37,12 @@ public class PublicacionService {
     public PublicacionDTO savePublicacion(PublicacionDTO publicacionDTO) {
         Publicacion publicacion = new Publicacion();
         publicacion.setContenido(publicacionDTO.getContenido());
-
+/*
         // Convertir String a LocalDateTime
         DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
         LocalDateTime fechaHoraPublicacion = LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion(), formatter);
         publicacion.setFechaHoraPublicacion(fechaHoraPublicacion);
-
+*/
         // Asignar el usuario a la publicación
         Usuario usuario = usuarioRepository.findById(publicacionDTO.getUsuarioId())
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
@@ -56,7 +58,7 @@ public class PublicacionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Publicacion no encontrada con id: " + id));
 
         publicacionExistente.setContenido(publicacionDTO.getContenido());
-        publicacionExistente.setFechaHoraPublicacion(LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
+        publicacionExistente.setFechaHoraPublicacion(ZonedDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
         publicacionExistente.setUsuario(new Usuario());
         publicacionExistente.getUsuario().setId(publicacionDTO.getUsuarioId());
 
@@ -72,7 +74,7 @@ public class PublicacionService {
             publicacionExistente.setContenido(publicacionDTO.getContenido());
         }
         if (publicacionDTO.getFechaHoraPublicacion() != null) {
-            publicacionExistente.setFechaHoraPublicacion(LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
+            publicacionExistente.setFechaHoraPublicacion(ZonedDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
         }
         if (publicacionDTO.getUsuarioId() != null) {
             publicacionExistente.setUsuario(new Usuario());
@@ -102,7 +104,7 @@ public class PublicacionService {
         Publicacion publicacion = new Publicacion();
         publicacion.setId(publicacionDTO.getId());
         publicacion.setContenido(publicacionDTO.getContenido());
-        publicacion.setFechaHoraPublicacion(LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
+        publicacion.setFechaHoraPublicacion(ZonedDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
         publicacion.setUsuario(new Usuario());
         publicacion.getUsuario().setId(publicacionDTO.getUsuarioId());
         return publicacion;

@@ -5,6 +5,15 @@ public class UsuarioDTO {
     private String nombre;
     private String apellido;
     private String correoInstitucional;
+    private String contrasena;
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
 
     // Getters y setters
     public Long getId() {

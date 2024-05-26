@@ -66,6 +66,10 @@ public class UsuarioService {
         if (usuarioDTO.getCorreoInstitucional() != null) {
             usuarioExistente.setCorreoInstitucional(usuarioDTO.getCorreoInstitucional());
         }
+        if (usuarioDTO.getContrasena() != null) {
+            usuarioExistente.setContrasena(usuarioDTO.getContrasena());
+        }
+
 
         Usuario patchedUsuario = usuarioRepository.save(usuarioExistente);
         return convertToDTO(patchedUsuario);
