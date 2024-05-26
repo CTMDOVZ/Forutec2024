@@ -51,6 +51,37 @@ public class PublicacionService {
         publicacionDTO.setId(savedPublicacion.getId());
         return publicacionDTO;
     }
+    public PublicacionDTO updatePublicacion(Long id, PublicacionDTO publicacionDTO) {
+        Publicacion publicacionExistente = publicacionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Publicacion no encontrada con id: " + id));
+
+        publicacionExistente.setContenido(publicacionDTO.getContenido());
+        publicacionExistente.setFechaHoraPublicacion(LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
+        publicacionExistente.setUsuario(new Usuario());
+        publicacionExistente.getUsuario().setId(publicacionDTO.getUsuarioId());
+
+        Publicacion updatedPublicacion = publicacionRepository.save(publicacionExistente);
+        return convertToDTO(updatedPublicacion);
+    }
+
+    public PublicacionDTO patchPublicacion(Long id, PublicacionDTO publicacionDTO) {
+        Publicacion publicacionExistente = publicacionRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Publicacion no encontrada con id: " + id));
+
+        if (publicacionDTO.getContenido() != null) {
+            publicacionExistente.setContenido(publicacionDTO.getContenido());
+        }
+        if (publicacionDTO.getFechaHoraPublicacion() != null) {
+            publicacionExistente.setFechaHoraPublicacion(LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
+        }
+        if (publicacionDTO.getUsuarioId() != null) {
+            publicacionExistente.setUsuario(new Usuario());
+            publicacionExistente.getUsuario().setId(publicacionDTO.getUsuarioId());
+        }
+
+        Publicacion patchedPublicacion = publicacionRepository.save(publicacionExistente);
+        return convertToDTO(patchedPublicacion);
+    }
 
     public void deletePublicacion(Long id) {
         Publicacion publicacion = publicacionRepository.findById(id)

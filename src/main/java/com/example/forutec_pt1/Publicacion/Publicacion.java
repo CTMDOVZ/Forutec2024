@@ -67,4 +67,5 @@ public class Publicacion {
     public void setComentarios(List<Comentario> comentarios) {
         this.comentarios = comentarios;
     }
+
 }

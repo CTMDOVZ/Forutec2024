@@ -78,6 +78,43 @@ public class ComentarioService {
         }
         return convertToDTO(savedComentario);
     }
+    public ComentarioDTO updateComentario(Long id, ComentarioDTO comentarioDTO) {
+        Comentario comentarioExistente = comentarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Comentario no encontrado con id: " + id));
+
+        comentarioExistente.setContenido(comentarioDTO.getContenido());
+        comentarioExistente.setFechaHoraComentario(LocalDateTime.parse(comentarioDTO.getFechaHoraComentario()));
+        comentarioExistente.setUsuario(new Usuario());
+        comentarioExistente.getUsuario().setId(comentarioDTO.getUsuarioId());
+        comentarioExistente.setPublicacion(new Publicacion());
+        comentarioExistente.getPublicacion().setId(comentarioDTO.getPublicacionId());
+
+        Comentario updatedComentario = comentarioRepository.save(comentarioExistente);
+        return convertToDTO(updatedComentario);
+    }
+
+    public ComentarioDTO patchComentario(Long id, ComentarioDTO comentarioDTO) {
+        Comentario comentarioExistente = comentarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Comentario no encontrado con id: " + id));
+
+        if (comentarioDTO.getContenido() != null) {
+            comentarioExistente.setContenido(comentarioDTO.getContenido());
+        }
+        if (comentarioDTO.getFechaHoraComentario() != null) {
+            comentarioExistente.setFechaHoraComentario(LocalDateTime.parse(comentarioDTO.getFechaHoraComentario()));
+        }
+        if (comentarioDTO.getUsuarioId() != null) {
+            comentarioExistente.setUsuario(new Usuario());
+            comentarioExistente.getUsuario().setId(comentarioDTO.getUsuarioId());
+        }
+        if (comentarioDTO.getPublicacionId() != null) {
+            comentarioExistente.setPublicacion(new Publicacion());
+            comentarioExistente.getPublicacion().setId(comentarioDTO.getPublicacionId());
+        }
+
+        Comentario patchedComentario = comentarioRepository.save(comentarioExistente);
+        return convertToDTO(patchedComentario);
+    }
 
     public void deleteComentario(Long id) {
         Comentario comentario = comentarioRepository.findById(id)
