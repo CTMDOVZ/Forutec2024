@@ -70,7 +70,7 @@ public class ComentarioService {
 
         List<Suscripcion> suscripciones = suscripcionRepository.findByPublicacion(publicacion);
         for (Suscripcion suscripcion : suscripciones) {
-            String email = suscripcion.getUsuario().getCorreoInstitucional();
+            String email = suscripcion.getUsuario().getEmail();
             if (email != null && !email.isEmpty()) {
                 CommentEmailEvent event = new CommentEmailEvent(email, comentario.getContenido());
                 eventPublisher.publishEvent(event);

@@ -1,7 +1,10 @@
 package com.example.forutec_pt1.Usuario;
 
 import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +16,14 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    ModelMapper modelMapper;
+
+    public UserDetailsService userDetailsService() {
+        return username -> usuarioRepository
+                .findByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
 
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioRepository.findAll().stream()
@@ -43,7 +54,7 @@ public class UsuarioService {
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
         usuarioExistente.setNombre(usuarioDTO.getNombre());
         usuarioExistente.setApellido(usuarioDTO.getApellido());
-        usuarioExistente.setCorreoInstitucional(usuarioDTO.getCorreoInstitucional());
+        usuarioExistente.setEmail(usuarioDTO.getEmail());
         Usuario updatedUsuario = usuarioRepository.save(usuarioExistente);
         return convertToDTO(updatedUsuario);
     }
@@ -63,11 +74,11 @@ public class UsuarioService {
         if (usuarioDTO.getApellido() != null) {
             usuarioExistente.setApellido(usuarioDTO.getApellido());
         }
-        if (usuarioDTO.getCorreoInstitucional() != null) {
-            usuarioExistente.setCorreoInstitucional(usuarioDTO.getCorreoInstitucional());
+        if (usuarioDTO.getEmail() != null) {
+            usuarioExistente.setEmail(usuarioDTO.getEmail());
         }
-        if (usuarioDTO.getContrasena() != null) {
-            usuarioExistente.setContrasena(usuarioDTO.getContrasena());
+        if (usuarioDTO.getPassword() != null) {
+            usuarioExistente.setContrasena(usuarioDTO.getPassword());
         }
 
 
@@ -80,7 +91,7 @@ public class UsuarioService {
         usuarioDTO.setId(usuario.getId());
         usuarioDTO.setNombre(usuario.getNombre());
         usuarioDTO.setApellido(usuario.getApellido());
-        usuarioDTO.setCorreoInstitucional(usuario.getCorreoInstitucional());
+        usuarioDTO.setEmail(usuario.getEmail());
         return usuarioDTO;
     }
 
@@ -89,7 +100,7 @@ public class UsuarioService {
         usuario.setId(usuarioDTO.getId());
         usuario.setNombre(usuarioDTO.getNombre());
         usuario.setApellido(usuarioDTO.getApellido());
-        usuario.setCorreoInstitucional(usuarioDTO.getCorreoInstitucional());
+        usuario.setEmail(usuarioDTO.getEmail());
         return usuario;
     }
 }
