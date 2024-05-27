@@ -4,13 +4,14 @@ import com.example.forutec_pt1.Auth.Dto.AuthJwtResponse;
 import com.example.forutec_pt1.Auth.Dto.AuthLoginRequest;
 import com.example.forutec_pt1.Auth.Dto.AuthRegisterRequest;
 import com.example.forutec_pt1.Exceptions.UserAlreadyExistException;
+import com.example.forutec_pt1.Exceptions.IllegalArgumentException;
+import com.example.forutec_pt1.Exceptions.UsernameNotFoundException;
 import com.example.forutec_pt1.Usuario.Role;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import com.example.forutec_pt1.config.JwtService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

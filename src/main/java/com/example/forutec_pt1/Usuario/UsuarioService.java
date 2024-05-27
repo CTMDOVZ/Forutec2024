@@ -52,8 +52,8 @@ public class UsuarioService {
     public UsuarioDTO updateUsuario(Long id, UsuarioDTO usuarioDTO) {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
-        usuarioExistente.setNombre(usuarioDTO.getNombre());
-        usuarioExistente.setApellido(usuarioDTO.getApellido());
+        usuarioExistente.setFirstname(usuarioDTO.getFirstname());
+        usuarioExistente.setLastname(usuarioDTO.getLastname());
         usuarioExistente.setEmail(usuarioDTO.getEmail());
         Usuario updatedUsuario = usuarioRepository.save(usuarioExistente);
         return convertToDTO(updatedUsuario);
@@ -68,11 +68,11 @@ public class UsuarioService {
         Usuario usuarioExistente = usuarioRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + id));
 
-        if (usuarioDTO.getNombre() != null) {
-            usuarioExistente.setNombre(usuarioDTO.getNombre());
+        if (usuarioDTO.getFirstname() != null) {
+            usuarioExistente.setFirstname(usuarioDTO.getFirstname());
         }
-        if (usuarioDTO.getApellido() != null) {
-            usuarioExistente.setApellido(usuarioDTO.getApellido());
+        if (usuarioDTO.getLastname() != null) {
+            usuarioExistente.setLastname(usuarioDTO.getLastname());
         }
         if (usuarioDTO.getEmail() != null) {
             usuarioExistente.setEmail(usuarioDTO.getEmail());
@@ -89,8 +89,8 @@ public class UsuarioService {
     private UsuarioDTO convertToDTO(Usuario usuario) {
         UsuarioDTO usuarioDTO = new UsuarioDTO();
         usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setNombre(usuario.getNombre());
-        usuarioDTO.setApellido(usuario.getApellido());
+        usuarioDTO.setFirstname(usuario.getFirstname());
+        usuarioDTO.setLastname(usuario.getLastname());
         usuarioDTO.setEmail(usuario.getEmail());
         return usuarioDTO;
     }
@@ -98,8 +98,8 @@ public class UsuarioService {
     private Usuario convertToEntity(UsuarioDTO usuarioDTO) {
         Usuario usuario = new Usuario();
         usuario.setId(usuarioDTO.getId());
-        usuario.setNombre(usuarioDTO.getNombre());
-        usuario.setApellido(usuarioDTO.getApellido());
+        usuario.setFirstname(usuarioDTO.getFirstname());
+        usuario.setLastname(usuarioDTO.getLastname());
         usuario.setEmail(usuarioDTO.getEmail());
         return usuario;
     }
