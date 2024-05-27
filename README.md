@@ -96,7 +96,7 @@ En Forutec PT1, hemos utilizado varias funcionalidades de GitHub para gestionar 
 - **Pull Requests**: Las pull requests nos permiten revisar y discutir cambios antes de fusionarlos en la rama principal. Usamos revisiones de código para mantener la calidad y consistencia del código.
 - **Actions**: Implementamos GitHub Actions para automatizar flujos de trabajo como pruebas y despliegues, asegurando que cada cambio pase por un proceso de integración continua.
 - **Projects**: Utilizamos GitHub Projects para organizar y planificar nuestro trabajo. Creamos tableros con columnas como "To Do", "In Progress" y "Done" para visualizar el progreso.
-- **Flujo de Trabajo (Workflow)**: Seguimos un flujo de trabajo basado en Gitflow, utilizando ramas específicas para desarrollo (`develop`), funcionalidades (`feature`), releases (`release`) y correcciones rápidas (`hotfix`).
+- **Flujo de Trabajo (Workflow)**: Seguimos un flujo de trabajo basado en Gitflow, utilizando ramas específicas para desarrollo.
 
 ## Contribuyendo
 
