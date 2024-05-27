@@ -1,6 +1,6 @@
 package com.example.forutec_pt1.Perfil;
 
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
 import com.example.forutec_pt1.Usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +30,32 @@ public class PerfilService {
         Perfil perfil = convertToEntity(perfilDTO);
         Perfil savedPerfil = perfilRepository.save(perfil);
         return convertToDTO(savedPerfil);
+    }
+    public PerfilDTO updatePerfil(Long id, PerfilDTO perfilDTO) {
+        Perfil perfilExistente = perfilRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Perfil no encontrado con id: " + id));
+
+        perfilExistente.setInformacionAdicional(perfilDTO.getInformacionAdicional());
+        perfilExistente.setUsuario(new Usuario());
+        perfilExistente.getUsuario().setId(perfilDTO.getUsuarioId());
+
+        Perfil updatedPerfil = perfilRepository.save(perfilExistente);
+        return convertToDTO(updatedPerfil);
+    }
+    public PerfilDTO patchPerfil(Long id, PerfilDTO perfilDTO) {
+        Perfil perfilExistente = perfilRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Perfil no encontrado con id: " + id));
+
+        if (perfilDTO.getInformacionAdicional() != null) {
+            perfilExistente.setInformacionAdicional(perfilDTO.getInformacionAdicional());
+        }
+        if (perfilDTO.getUsuarioId() != null) {
+            perfilExistente.setUsuario(new Usuario());
+            perfilExistente.getUsuario().setId(perfilDTO.getUsuarioId());
+        }
+
+        Perfil patchedPerfil = perfilRepository.save(perfilExistente);
+        return convertToDTO(patchedPerfil);
     }
 
     public void deletePerfil(Long id) {

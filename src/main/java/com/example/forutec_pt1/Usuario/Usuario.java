@@ -5,22 +5,37 @@ import com.example.forutec_pt1.Suscripcion.Suscripcion;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.lang.NonNull;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
 import java.util.List;
 
 @Entity
-public class Usuario {
+@Getter
+@Setter
+
+public class Usuario implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String nombre;
-    private String apellido;
+    private Role Role;
+    private String firstname;
+    private String lastname;
 
     @Column(unique = true)
-    private String correoInstitucional;
-
+    private String email;
+    @NonNull
     private String contrasena;
-
+    /*
+    @Column(name = "created_at", nullable = false)
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
+*/
     @OneToMany(mappedBy = "usuario")
     @JsonManagedReference
     private List<Publicacion> publicaciones;
@@ -28,51 +43,43 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Suscripcion> suscripciones;
 
-    public Long getId() {
-        return id;
+    @Transient
+    String role_prefix = "ROLE_";
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role_prefix + Role.name()));
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    @Override
+    public String getPassword() {
+        return this.contrasena;
     }
 
-    public String getNombre() {
-        return nombre;
+    @Override
+    public String getUsername() {
+        return this.email;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public String getApellido() {
-        return apellido;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
 
-    public String getCorreoInstitucional() {
-        return correoInstitucional;
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
-    public void setCorreoInstitucional(String correoInstitucional) {
-        this.correoInstitucional = correoInstitucional;
-    }
 
-    public String getContrasena() {
-        return contrasena;
-    }
 
-    public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
-    }
-
-    public List<Publicacion> getPublicaciones() {return publicaciones; }
-
-    public void setPublicaciones(List<Publicacion> publicaciones) {this.publicaciones = publicaciones; }
-
-    public List<Suscripcion> getSuscripciones() {return suscripciones; }
-
-    public void setSuscripciones(List<Suscripcion> suscripciones) {this.suscripciones = suscripciones; }
 }

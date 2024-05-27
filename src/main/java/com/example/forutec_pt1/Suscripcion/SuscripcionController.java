@@ -7,6 +7,8 @@ import com.example.forutec_pt1.Publicacion.PublicacionRepository;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,36 +33,27 @@ public class SuscripcionController {
     private SuscripcionService suscripcionService;
 
     @GetMapping
-    public List<SuscripcionDTO> getAllSuscripciones() {
-        return suscripcionService.getAllSuscripciones();
+    public ResponseEntity<List<SuscripcionDTO>> getAllSuscripciones() {
+        List<SuscripcionDTO> suscripciones = suscripcionService.getAllSuscripciones();
+        return new ResponseEntity<>(suscripciones, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public SuscripcionDTO getSuscripcionById(@PathVariable Long id) {
-        return suscripcionService.getSuscripcionById(id);
+    public ResponseEntity<SuscripcionDTO> getSuscripcionById(@PathVariable Long id) {
+        SuscripcionDTO suscripcionDTO = suscripcionService.getSuscripcionById(id);
+        return new ResponseEntity<>(suscripcionDTO, HttpStatus.OK);
     }
 
     @PostMapping
-    public Suscripcion createSuscripcion(@RequestBody Suscripcion suscripcion) {
-        Usuario usuario = usuarioRepository.findById(suscripcion.getUsuario().getId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
-
-        Categoria categoria = categoriaRepository.findById(suscripcion.getCategoria().getId())
-                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
-
-        Publicacion publicacion = publicacionRepository.findById(suscripcion.getPublicacion().getId())
-                .orElseThrow(() -> new RuntimeException("Publicacion no encontrada"));
-
-        suscripcion.setUsuario(usuario);
-        suscripcion.setCategoria(categoria);
-        suscripcion.setPublicacion(publicacion);
-
-        return suscripcionRepository.save(suscripcion);
+    public ResponseEntity<SuscripcionDTO> createSuscripcion(@RequestBody SuscripcionDTO suscripcionDTO) {
+        SuscripcionDTO createdSuscripcion = suscripcionService.createSuscripcion(suscripcionDTO);
+        return new ResponseEntity<>(createdSuscripcion, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteSuscripcion(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSuscripcion(@PathVariable Long id) {
         suscripcionService.deleteSuscripcion(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 

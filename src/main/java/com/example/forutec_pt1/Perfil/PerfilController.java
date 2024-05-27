@@ -1,6 +1,9 @@
 package com.example.forutec_pt1.Perfil;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,24 +14,34 @@ public class PerfilController {
 
     @Autowired
     private PerfilService perfilService;
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public List<PerfilDTO> getAllPerfiles() {
-        return perfilService.getAllPerfiles();
+    public ResponseEntity<List<PerfilDTO>> getAllPerfiles() {
+        List<PerfilDTO> perfiles = perfilService.getAllPerfiles();
+        return new ResponseEntity<>(perfiles, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @GetMapping("/{id}")
-    public PerfilDTO getPerfilById(@PathVariable Long id) {
-        return perfilService.getPerfilById(id);
+    public ResponseEntity<PerfilDTO> getPerfilById(@PathVariable Long id) {
+        PerfilDTO perfilDTO = perfilService.getPerfilById(id);
+        return new ResponseEntity<>(perfilDTO, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @PostMapping
-    public PerfilDTO savePerfil(@RequestBody PerfilDTO perfilDTO) {
-        return perfilService.savePerfil(perfilDTO);
+    public ResponseEntity<PerfilDTO> savePerfil(@RequestBody PerfilDTO perfilDTO) {
+        PerfilDTO savedPerfil = perfilService.savePerfil(perfilDTO);
+        return new ResponseEntity<>(savedPerfil, HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<PerfilDTO> updatePerfil(@PathVariable Long id, @RequestBody PerfilDTO perfilDTO) {
+        PerfilDTO updatedPerfil = perfilService.updatePerfil(id, perfilDTO);
+        return new ResponseEntity<>(updatedPerfil, HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
-    public void deletePerfil(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePerfil(@PathVariable Long id) {
         perfilService.deletePerfil(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

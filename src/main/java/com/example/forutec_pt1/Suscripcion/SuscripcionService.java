@@ -1,8 +1,12 @@
 package com.example.forutec_pt1.Suscripcion;
 
 import com.example.forutec_pt1.Categoria.Categoria;
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Categoria.CategoriaRepository;
+import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
+import com.example.forutec_pt1.Publicacion.Publicacion;
+import com.example.forutec_pt1.Publicacion.PublicacionRepository;
 import com.example.forutec_pt1.Usuario.Usuario;
+import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +18,12 @@ public class SuscripcionService {
 
     @Autowired
     private SuscripcionRepository suscripcionRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PublicacionRepository publicacionRepository;
 
     public List<SuscripcionDTO> getAllSuscripciones() {
         return suscripcionRepository.findAll().stream()
@@ -29,6 +39,24 @@ public class SuscripcionService {
 
     public SuscripcionDTO saveSuscripcion(SuscripcionDTO suscripcionDTO) {
         Suscripcion suscripcion = convertToEntity(suscripcionDTO);
+        Suscripcion savedSuscripcion = suscripcionRepository.save(suscripcion);
+        return convertToDTO(savedSuscripcion);
+    }
+    public SuscripcionDTO createSuscripcion(SuscripcionDTO suscripcionDTO) {
+        Usuario usuario = usuarioRepository.findById(suscripcionDTO.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        Categoria categoria = categoriaRepository.findById(suscripcionDTO.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada"));
+
+        Publicacion publicacion = publicacionRepository.findById(suscripcionDTO.getPublicacionId())
+                .orElseThrow(() -> new ResourceNotFoundException("Publicacion no encontrada"));
+
+        Suscripcion suscripcion = convertToEntity(suscripcionDTO);
+        suscripcion.setUsuario(usuario);
+        suscripcion.setCategoria(categoria);
+        suscripcion.setPublicacion(publicacion);
+
         Suscripcion savedSuscripcion = suscripcionRepository.save(suscripcion);
         return convertToDTO(savedSuscripcion);
     }
