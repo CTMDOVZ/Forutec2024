@@ -3,7 +3,9 @@ package com.example.forutec_pt1.Usuario;
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Suscripcion.Suscripcion;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Usuario.class)
 @Entity
 @Getter
 @Setter
@@ -37,7 +39,6 @@ public class Usuario implements UserDetails{
     LocalDateTime updatedAt;
 */
     @OneToMany(mappedBy = "usuario")
-    @JsonManagedReference
     private List<Publicacion> publicaciones;
 
     @OneToMany(mappedBy = "usuario")

@@ -3,7 +3,9 @@ package com.example.forutec_pt1.Publicacion;
 import com.example.forutec_pt1.Comentario.Comentario;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -11,7 +13,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Publicacion.class)
 @Entity
 public class Publicacion {
     @Id
@@ -24,11 +26,11 @@ public class Publicacion {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonBackReference
+
     private Usuario usuario;
 
     @OneToMany(mappedBy = "publicacion")
-    @JsonManagedReference
+
     private List<Comentario> comentarios;
     // Getters y setters
     public Long getId() {
