@@ -2,12 +2,15 @@ package com.example.forutec_pt1.Comentario;
 
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 
 import java.time.LocalDateTime;
 
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Comentario.class)
 public class Comentario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
