@@ -88,6 +88,16 @@ Para instalar y ejecutar este proyecto localmente, sigue estos pasos:
 - `POST /api/suscripciones`
 - `DELETE /api/suscripciones/{id}`
 
+## Gestión del Proyecto con GitHub
+
+En Forutec PT1, hemos utilizado varias funcionalidades de GitHub para gestionar nuestro proyecto de manera eficiente y colaborativa:
+
+- **Issues**: Utilizamos issues para rastrear tareas, bugs y nuevas funcionalidades. Cada issue está claramente etiquetado y asignado a los miembros del equipo correspondientes.
+- **Pull Requests**: Las pull requests nos permiten revisar y discutir cambios antes de fusionarlos en la rama principal. Usamos revisiones de código para mantener la calidad y consistencia del código.
+- **Actions**: Implementamos GitHub Actions para automatizar flujos de trabajo como pruebas y despliegues, asegurando que cada cambio pase por un proceso de integración continua.
+- **Projects**: Utilizamos GitHub Projects para organizar y planificar nuestro trabajo. Creamos tableros con columnas como "To Do", "In Progress" y "Done" para visualizar el progreso.
+- **Flujo de Trabajo (Workflow)**: Seguimos un flujo de trabajo basado en Gitflow, utilizando ramas específicas para desarrollo (`develop`), funcionalidades (`feature`), releases (`release`) y correcciones rápidas (`hotfix`).
+
 ## Contribuyendo
 
 ¡Las contribuciones son bienvenidas! Si deseas contribuir, por favor sigue estos pasos:
@@ -97,5 +107,6 @@ Para instalar y ejecutar este proyecto localmente, sigue estos pasos:
 3. Realiza tus cambios y haz un commit (`git commit -m 'Agregar nueva funcionalidad'`).
 4. Empuja tus cambios a la rama (`git push origin feature/nueva-funcionalidad`).
 5. Abre un Pull Request.
+
 
 
