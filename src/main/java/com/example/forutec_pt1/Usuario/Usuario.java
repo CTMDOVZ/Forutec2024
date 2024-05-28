@@ -76,3 +76,4 @@ public class Usuario {
 
     public void setSuscripciones(List<Suscripcion> suscripciones) {this.suscripciones = suscripciones; }
 }
+#hola
