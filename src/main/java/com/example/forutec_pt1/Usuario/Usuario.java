@@ -4,7 +4,6 @@ import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Suscripcion.Suscripcion;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -16,26 +15,33 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Usuario.class)
+
 @Entity
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Usuario.class)
-public class Usuario {
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id", scope = Usuario.class)
+public class Usuario implements UserDetails {
+    @Setter
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Role Role;
+    @Setter
+    private Role role; // Nombres de variables en minúsculas
+    @Setter
+    @Getter
     private String firstname;
+    @Getter
+    @Setter
     private String lastname;
 
+    @Setter
+    @Getter
     @Column(unique = true)
     private String email;
+    @Setter
+    @Getter
     @NonNull
     private String contrasena;
-    /*
-    @Column(name = "created_at", nullable = false)
-    LocalDateTime createdAt;
-    LocalDateTime updatedAt;
-*/
+
     @OneToMany(mappedBy = "usuario")
     private List<Publicacion> publicaciones;
 
@@ -43,10 +49,11 @@ public class Usuario {
     private List<Suscripcion> suscripciones;
 
     @Transient
-    String role_prefix = "ROLE_";
+    String rolePrefix = "ROLE_";
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role_prefix + Role.name()));
+        return List.of(new SimpleGrantedAuthority(rolePrefix + role.name())); // Corrige el uso de la variable role
     }
 
     @Override
@@ -78,7 +85,5 @@ public class Usuario {
     public boolean isEnabled() {
         return true;
     }
-
-
 
 }

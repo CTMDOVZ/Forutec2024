@@ -3,9 +3,15 @@ package com.example.forutec_pt1.Perfil;
 
 import com.example.forutec_pt1.Usuario.Usuario;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Entity
 public class Perfil {
+
+    // Getters y setters
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,28 +22,4 @@ public class Perfil {
 
     private String informacionAdicional;
 
-    // Getters y setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getInformacionAdicional() {
-        return informacionAdicional;
-    }
-
-    public void setInformacionAdicional(String informacionAdicional) {
-        this.informacionAdicional = informacionAdicional;
-    }
 }
