@@ -43,7 +43,7 @@ public class PublicacionService {
 
         // Asignar el usuario a la publicación
         Usuario usuario = usuarioRepository.findById(publicacionDTO.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         publicacion.setUsuario(usuario);
 
         Publicacion savedPublicacion = publicacionRepository.save(publicacion);

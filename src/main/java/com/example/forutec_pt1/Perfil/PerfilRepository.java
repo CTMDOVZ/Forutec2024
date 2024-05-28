@@ -5,5 +5,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PerfilRepository extends JpaRepository<Perfil, Long> {
-    boolean existsByUsuarioId(Long usuarioId);
 }
