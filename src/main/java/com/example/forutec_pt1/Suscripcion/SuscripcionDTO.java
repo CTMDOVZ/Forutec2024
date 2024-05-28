@@ -4,6 +4,7 @@ public class SuscripcionDTO {
     private Long id;
     private Long usuarioId;
     private Long categoriaId;
+    private Long publicacionId;
 
     // Getters y setters
     public Long getId() {
@@ -29,4 +30,8 @@ public class SuscripcionDTO {
     public void setCategoriaId(Long categoriaId) {
         this.categoriaId = categoriaId;
     }
+
+    public Long getPublicacionId() { return publicacionId; }
+
+    public void setPublicacionId(Long publicacionId) { this.publicacionId = publicacionId; }
 }
