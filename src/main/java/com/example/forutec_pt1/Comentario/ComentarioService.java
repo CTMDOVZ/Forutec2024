@@ -1,7 +1,7 @@
 package com.example.forutec_pt1.Comentario;
 
 import com.example.forutec_pt1.Publicacion.Publicacion;
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
 import com.example.forutec_pt1.Suscripcion.Suscripcion;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Publicacion.PublicacionRepository;
@@ -70,13 +70,50 @@ public class ComentarioService {
 
         List<Suscripcion> suscripciones = suscripcionRepository.findByPublicacion(publicacion);
         for (Suscripcion suscripcion : suscripciones) {
-            String email = suscripcion.getUsuario().getCorreoInstitucional();
+            String email = suscripcion.getUsuario().getEmail();
             if (email != null && !email.isEmpty()) {
                 CommentEmailEvent event = new CommentEmailEvent(email, comentario.getContenido());
                 eventPublisher.publishEvent(event);
             }
         }
         return convertToDTO(savedComentario);
+    }
+    public ComentarioDTO updateComentario(Long id, ComentarioDTO comentarioDTO) {
+        Comentario comentarioExistente = comentarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Comentario no encontrado con id: " + id));
+
+        comentarioExistente.setContenido(comentarioDTO.getContenido());
+        comentarioExistente.setFechaHoraComentario(LocalDateTime.parse(comentarioDTO.getFechaHoraComentario()));
+        comentarioExistente.setUsuario(new Usuario());
+        comentarioExistente.getUsuario().setId(comentarioDTO.getUsuarioId());
+        comentarioExistente.setPublicacion(new Publicacion());
+        comentarioExistente.getPublicacion().setId(comentarioDTO.getPublicacionId());
+
+        Comentario updatedComentario = comentarioRepository.save(comentarioExistente);
+        return convertToDTO(updatedComentario);
+    }
+
+    public ComentarioDTO patchComentario(Long id, ComentarioDTO comentarioDTO) {
+        Comentario comentarioExistente = comentarioRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Comentario no encontrado con id: " + id));
+
+        if (comentarioDTO.getContenido() != null) {
+            comentarioExistente.setContenido(comentarioDTO.getContenido());
+        }
+        if (comentarioDTO.getFechaHoraComentario() != null) {
+            comentarioExistente.setFechaHoraComentario(LocalDateTime.parse(comentarioDTO.getFechaHoraComentario()));
+        }
+        if (comentarioDTO.getUsuarioId() != null) {
+            comentarioExistente.setUsuario(new Usuario());
+            comentarioExistente.getUsuario().setId(comentarioDTO.getUsuarioId());
+        }
+        if (comentarioDTO.getPublicacionId() != null) {
+            comentarioExistente.setPublicacion(new Publicacion());
+            comentarioExistente.getPublicacion().setId(comentarioDTO.getPublicacionId());
+        }
+
+        Comentario patchedComentario = comentarioRepository.save(comentarioExistente);
+        return convertToDTO(patchedComentario);
     }
 
     public void deleteComentario(Long id) {

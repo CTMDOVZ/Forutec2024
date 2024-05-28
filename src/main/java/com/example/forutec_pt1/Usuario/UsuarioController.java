@@ -12,7 +12,7 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
@@ -23,7 +23,13 @@ public class UsuarioController {
         UsuarioDTO usuario = usuarioService.getUsuarioById(id);
         return ResponseEntity.ok(usuario);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("{id}")
+    public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id) {
+        UsuarioDTO usuarioDTO = usuarioService.getUsuarioById(id);
+        return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
+    }
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<UsuarioDTO> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO savedUsuario = usuarioService.saveUsuario(usuarioDTO);
@@ -35,4 +41,12 @@ public class UsuarioController {
         usuarioService.deleteUsuario(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
+    @GetMapping("/profile/{id}")
+    public ResponseEntity<Usuario> obtenerUsuarioPorId2(@PathVariable Long id) {
+        Usuario usuario = usuarioService.obtenerPorId2(id);
+        return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
+    }
+
 }

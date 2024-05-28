@@ -18,6 +18,12 @@ public class SuscripcionService {
 
     @Autowired
     private SuscripcionRepository suscripcionRepository;
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+    @Autowired
+    private PublicacionRepository publicacionRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -47,6 +53,24 @@ public class SuscripcionService {
                 .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada con id: " + suscripcionDTO.getCategoriaId()));
         Publicacion publicacion = publicacionRepository.findById(suscripcionDTO.getPublicacionId())
                 .orElseThrow(() -> new ResourceNotFoundException("Publicacion no encontrada con id: " + suscripcionDTO.getPublicacionId()));
+
+        Suscripcion suscripcion = convertToEntity(suscripcionDTO);
+        suscripcion.setUsuario(usuario);
+        suscripcion.setCategoria(categoria);
+        suscripcion.setPublicacion(publicacion);
+
+        Suscripcion savedSuscripcion = suscripcionRepository.save(suscripcion);
+        return convertToDTO(savedSuscripcion);
+    }
+    public SuscripcionDTO createSuscripcion(SuscripcionDTO suscripcionDTO) {
+        Usuario usuario = usuarioRepository.findById(suscripcionDTO.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
+
+        Categoria categoria = categoriaRepository.findById(suscripcionDTO.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada"));
+
+        Publicacion publicacion = publicacionRepository.findById(suscripcionDTO.getPublicacionId())
+                .orElseThrow(() -> new ResourceNotFoundException("Publicacion no encontrada"));
 
         Suscripcion suscripcion = convertToEntity(suscripcionDTO);
         suscripcion.setUsuario(usuario);

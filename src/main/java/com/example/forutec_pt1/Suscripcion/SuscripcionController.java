@@ -15,13 +15,15 @@ public class SuscripcionController {
     private SuscripcionService suscripcionService;
 
     @GetMapping
-    public List<SuscripcionDTO> getAllSuscripciones() {
-        return suscripcionService.getAllSuscripciones();
+    public ResponseEntity<List<SuscripcionDTO>> getAllSuscripciones() {
+        List<SuscripcionDTO> suscripciones = suscripcionService.getAllSuscripciones();
+        return new ResponseEntity<>(suscripciones, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public SuscripcionDTO getSuscripcionById(@PathVariable Long id) {
-        return suscripcionService.getSuscripcionById(id);
+    public ResponseEntity<SuscripcionDTO> getSuscripcionById(@PathVariable Long id) {
+        SuscripcionDTO suscripcionDTO = suscripcionService.getSuscripcionById(id);
+        return new ResponseEntity<>(suscripcionDTO, HttpStatus.OK);
     }
 
     @PostMapping

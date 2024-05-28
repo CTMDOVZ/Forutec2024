@@ -1,12 +1,17 @@
 package com.example.forutec_pt1.Publicacion;
 
+import com.example.forutec_pt1.Comentario.Comentario;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Publicacion.class)
 @Entity
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Publicacion.class)
 public class Publicacion {
@@ -16,12 +21,16 @@ public class Publicacion {
 
     private String contenido;
 
-    private LocalDateTime fechaHoraPublicacion;
+    private ZonedDateTime fechaHoraPublicacion;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+
     private Usuario usuario;
 
+    @OneToMany(mappedBy = "publicacion")
+
+    private List<Comentario> comentarios;
     // Getters y setters
     public Long getId() {
         return id;
@@ -39,11 +48,11 @@ public class Publicacion {
         this.contenido = contenido;
     }
 
-    public LocalDateTime getFechaHoraPublicacion() {
+    public ZonedDateTime getFechaHoraPublicacion() {
         return fechaHoraPublicacion;
     }
 
-    public void setFechaHoraPublicacion(LocalDateTime fechaHoraPublicacion) {
+    public void setFechaHoraPublicacion(ZonedDateTime fechaHoraPublicacion) {
         this.fechaHoraPublicacion = fechaHoraPublicacion;
     }
 
@@ -54,4 +63,22 @@ public class Publicacion {
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
+    }
+    @PrePersist
+    protected void onCreate() {
+        this.fechaHoraPublicacion = ZonedDateTime.now(ZoneId.of("America/Lima"));
+    }
+
+    public String getFormattedFechaHoraPublicacion() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss z");
+        return fechaHoraPublicacion.format(formatter);
+    }
+
 }
