@@ -14,19 +14,19 @@ public class PerfilController {
 
     @Autowired
     private PerfilService perfilService;
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping
     public ResponseEntity<List<PerfilDTO>> getAllPerfiles() {
         List<PerfilDTO> perfiles = perfilService.getAllPerfiles();
         return new ResponseEntity<>(perfiles, HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
+
     @GetMapping("/{id}")
     public ResponseEntity<PerfilDTO> getPerfilById(@PathVariable Long id) {
         PerfilDTO perfilDTO = perfilService.getPerfilById(id);
         return new ResponseEntity<>(perfilDTO, HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
+
     @PostMapping
     public ResponseEntity<PerfilDTO> savePerfil(@RequestBody PerfilDTO perfilDTO) {
         PerfilDTO savedPerfil = perfilService.savePerfil(perfilDTO);
@@ -38,7 +38,7 @@ public class PerfilController {
         PerfilDTO updatedPerfil = perfilService.updatePerfil(id, perfilDTO);
         return new ResponseEntity<>(updatedPerfil, HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerfil(@PathVariable Long id) {
         perfilService.deletePerfil(id);

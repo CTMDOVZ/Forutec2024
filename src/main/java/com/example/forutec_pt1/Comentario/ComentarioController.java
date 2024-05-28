@@ -14,19 +14,19 @@ public class ComentarioController {
 
     @Autowired
     private ComentarioService comentarioService;
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping
     public ResponseEntity<List<ComentarioDTO>> getAllComentarios() {
         List<ComentarioDTO> comentarios = comentarioService.getAllComentarios();
         return new ResponseEntity<>(comentarios, HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
+
     @GetMapping("/{id}")
     public ResponseEntity<ComentarioDTO> getComentarioById(@PathVariable Long id) {
         ComentarioDTO comentarioDTO = comentarioService.getComentarioById(id);
         return new ResponseEntity<>(comentarioDTO, HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
+
     @PostMapping
     public ResponseEntity<ComentarioDTO> saveComentario(@RequestBody ComentarioDTO comentarioDTO) {
         ComentarioDTO savedComentario = comentarioService.saveComentario(comentarioDTO);
@@ -38,7 +38,7 @@ public class ComentarioController {
         ComentarioDTO updatedComentario = comentarioService.updateComentario(id, comentarioDTO);
         return new ResponseEntity<>(updatedComentario, HttpStatus.OK);
     }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComentario(@PathVariable Long id) {
         comentarioService.deleteComentario(id);
