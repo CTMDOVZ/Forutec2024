@@ -8,7 +8,7 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Publicacion.class)
+
 public class Publicacion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

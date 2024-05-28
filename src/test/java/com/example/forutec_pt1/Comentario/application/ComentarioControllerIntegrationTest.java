@@ -20,6 +20,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -50,14 +51,14 @@ public class ComentarioControllerIntegrationTest {
         // Creación de usuario y publicación de prueba
         usuario = new Usuario();
         usuario.setNombre("Usuario 1");
-        usuario.setApellido("abs");
+        usuario.setContrasena("abs");
         usuario.setCorreoInstitucional("alexander.munnoz12@gmail.com");
         usuario.setContrasena("amb");
         usuario = usuarioRepository.save(usuario);
 
         publicacion = new Publicacion();
         publicacion.setContenido("Contenido de la Publicación 1");
-        publicacion.setFechaHoraPublicacion(LocalDateTime.parse("2024-05-24T10:00:00"));
+        publicacion.setFechaHoraPublicacion(LocalDateTime.parse("2024-05-24T10:00:00")); // cambie el zoned
         publicacion.setUsuario(usuario);
         publicacion = publicacionRepository.save(publicacion);
     }

@@ -18,15 +18,13 @@ public class SuscripcionService {
 
     @Autowired
     private SuscripcionRepository suscripcionRepository;
-
     @Autowired
-    private UsuarioRepository usuarioRepository;
-
+    UsuarioRepository usuarioRepository;
     @Autowired
-    private CategoriaRepository categoriaRepository;
-
+    CategoriaRepository categoriaRepository;
     @Autowired
-    private PublicacionRepository publicacionRepository;
+    PublicacionRepository publicacionRepository;
+
 
     public List<SuscripcionDTO> getAllSuscripciones() {
         return suscripcionRepository.findAll().stream()
