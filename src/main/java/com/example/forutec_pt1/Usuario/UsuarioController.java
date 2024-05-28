@@ -15,7 +15,9 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public List<UsuarioDTO> getAllUsuarios() { return usuarioService.getAllUsuarios(); }
+    public List<UsuarioDTO> getAllUsuarios() {
+        return usuarioService.getAllUsuarios();
+    }
 
     @GetMapping("/hello")
     public String hello() {
@@ -24,8 +26,9 @@ public class UsuarioController {
 
 
     @GetMapping("/{id}")
-    public UsuarioDTO getUsuarioById(@PathVariable Long id) {
-        return usuarioService.getUsuarioById(id);
+    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable Long id) {
+        UsuarioDTO usuario = usuarioService.getUsuarioById(id);
+        return ResponseEntity.ok(usuario);
     }
 
     @GetMapping("/profile/{id}")
@@ -35,12 +38,14 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
-        return new ResponseEntity<>(usuarioService.guardarUsuario(usuario), HttpStatus.CREATED);
+    public ResponseEntity<UsuarioDTO> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+        UsuarioDTO savedUsuario = usuarioService.saveUsuario(usuarioDTO);
+        return ResponseEntity.status(201).body(savedUsuario);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUsuario(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -3,6 +3,7 @@ package com.example.forutec_pt1.Perfil;
 import com.example.forutec_pt1.ResourceNotFoundException;
 import com.example.forutec_pt1.Usuario.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,9 @@ public class PerfilService {
 
     @Autowired
     private PerfilRepository perfilRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     public List<PerfilDTO> getAllPerfiles() {
         return perfilRepository.findAll().stream()
@@ -27,9 +31,15 @@ public class PerfilService {
     }
 
     public PerfilDTO savePerfil(PerfilDTO perfilDTO) {
-        Perfil perfil = convertToEntity(perfilDTO);
-        Perfil savedPerfil = perfilRepository.save(perfil);
-        return convertToDTO(savedPerfil);
+        if (perfilRepository.existsByUsuarioId(perfilDTO.getUsuarioId())) {
+            throw new RuntimeException("El usuario ya tiene un perfil asociado.");
+        }
+        Perfil perfil = new Perfil();
+        perfil.setUsuario(usuarioRepository.findById(perfilDTO.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + perfilDTO.getUsuarioId())));
+        perfil.setInformacionAdicional(perfilDTO.getInformacionAdicional());
+        perfil = perfilRepository.save(perfil);
+        return convertToDTO(perfil);
     }
 
     public void deletePerfil(Long id) {
@@ -39,11 +49,11 @@ public class PerfilService {
     }
 
     private PerfilDTO convertToDTO(Perfil perfil) {
-        PerfilDTO perfilDTO = new PerfilDTO();
-        perfilDTO.setId(perfil.getId());
-        perfilDTO.setUsuarioId(perfil.getUsuario().getId());
-        perfilDTO.setInformacionAdicional(perfil.getInformacionAdicional());
-        return perfilDTO;
+        PerfilDTO dto = new PerfilDTO();
+        dto.setId(perfil.getId());
+        dto.setUsuarioId(perfil.getUsuario().getId());
+        dto.setInformacionAdicional(perfil.getInformacionAdicional());
+        return dto;
     }
 
     private Perfil convertToEntity(PerfilDTO perfilDTO) {

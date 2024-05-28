@@ -2,6 +2,7 @@ package com.example.forutec_pt1.Perfil;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -18,17 +19,20 @@ public class PerfilController {
     }
 
     @GetMapping("/{id}")
-    public PerfilDTO getPerfilById(@PathVariable Long id) {
-        return perfilService.getPerfilById(id);
+    public ResponseEntity<PerfilDTO> getPerfilById(@PathVariable Long id) {
+        PerfilDTO perfil = perfilService.getPerfilById(id);
+        return ResponseEntity.ok(perfil);
     }
 
     @PostMapping
-    public PerfilDTO savePerfil(@RequestBody PerfilDTO perfilDTO) {
-        return perfilService.savePerfil(perfilDTO);
+    public ResponseEntity<PerfilDTO> savePerfil(@RequestBody PerfilDTO perfilDTO) {
+        PerfilDTO savedPerfil = perfilService.savePerfil(perfilDTO);
+        return ResponseEntity.status(201).body(savedPerfil);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePerfil(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePerfil(@PathVariable Long id) {
         perfilService.deletePerfil(id);
+        return ResponseEntity.noContent().build();
     }
 }
