@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,21 +33,23 @@ public class PublicacionService {
     }
 
     public PublicacionDTO savePublicacion(PublicacionDTO publicacionDTO) {
-        // Convertir el DTO a entidad
-        Publicacion publicacion = convertToEntity(publicacionDTO);
+        Publicacion publicacion = new Publicacion();
+        publicacion.setContenido(publicacionDTO.getContenido());
+
+        // Convertir String a LocalDateTime
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        LocalDateTime fechaHoraPublicacion = LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion(), formatter);
+        publicacion.setFechaHoraPublicacion(fechaHoraPublicacion);
 
         // Asignar el usuario a la publicación
         Usuario usuario = usuarioRepository.findById(publicacionDTO.getUsuarioId())
-                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + publicacionDTO.getUsuarioId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
         publicacion.setUsuario(usuario);
 
-        // Establecer la fecha y hora actual para la nueva publicación
-        publicacion.setFechaHoraPublicacion(LocalDateTime.now());
-
-        // Guardar la publicación
         Publicacion savedPublicacion = publicacionRepository.save(publicacion);
 
-        return convertToDTO(savedPublicacion);
+        publicacionDTO.setId(savedPublicacion.getId());
+        return publicacionDTO;
     }
 
     public void deletePublicacion(Long id) {
@@ -68,7 +71,7 @@ public class PublicacionService {
         Publicacion publicacion = new Publicacion();
         publicacion.setId(publicacionDTO.getId());
         publicacion.setContenido(publicacionDTO.getContenido());
-        // No establecer la fecha aquí, se hará en el método savePublicacion()
+        publicacion.setFechaHoraPublicacion(LocalDateTime.parse(publicacionDTO.getFechaHoraPublicacion()));
         publicacion.setUsuario(new Usuario());
         publicacion.getUsuario().setId(publicacionDTO.getUsuarioId());
         return publicacion;

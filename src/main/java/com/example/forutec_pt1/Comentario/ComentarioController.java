@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/comentarios")
@@ -19,21 +18,18 @@ public class ComentarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ComentarioDTO> getComentario(@PathVariable Long id) {
-        ComentarioDTO comentario = comentarioService.getComentarioById(id);
-        return ResponseEntity.ok(comentario);
+    public ComentarioDTO getComentarioById(@PathVariable Long id) {
+        return comentarioService.getComentarioById(id);
     }
 
     @PostMapping
-    public ResponseEntity<ComentarioDTO> saveComentario(@RequestBody ComentarioDTO comentarioDTO) {
-        ComentarioDTO savedComentario = comentarioService.saveComentario(comentarioDTO);
-        return ResponseEntity.status(201).body(savedComentario);
+    public ComentarioDTO saveComentario(@RequestBody ComentarioDTO comentarioDTO) {
+        return comentarioService.saveComentario(comentarioDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteComentario(@PathVariable Long id) {
+    public void deleteComentario(@PathVariable Long id) {
         comentarioService.deleteComentario(id);
-        return ResponseEntity.noContent().build();
     }
 }
 

@@ -15,9 +15,7 @@ public class UsuarioController {
     private UsuarioService usuarioService;
 
     @GetMapping
-    public List<UsuarioDTO> getAllUsuarios() {
-        return usuarioService.getAllUsuarios();
-    }
+    public List<UsuarioDTO> getAllUsuarios() { return usuarioService.getAllUsuarios(); }
 
     @GetMapping("/hello")
     public String hello() {
@@ -26,26 +24,21 @@ public class UsuarioController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable Long id) {
-        UsuarioDTO usuario = usuarioService.getUsuarioById(id);
-        return ResponseEntity.ok(usuario);
+    public UsuarioDTO getUsuarioById(@PathVariable Long id) {
+        return usuarioService.getUsuarioById(id);
     }
-
     @GetMapping("/profile/{id}")
     public ResponseEntity<Usuario> obtenerUsuarioPorId2(@PathVariable Long id) {
         Usuario usuario = usuarioService.obtenerPorId2(id);
         return usuario != null ? ResponseEntity.ok(usuario) : ResponseEntity.notFound().build();
     }
-
     @PostMapping
-    public ResponseEntity<UsuarioDTO> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioDTO savedUsuario = usuarioService.saveUsuario(usuarioDTO);
-        return ResponseEntity.status(201).body(savedUsuario);
+    public ResponseEntity<Usuario> crearUsuario(@RequestBody Usuario usuario) {
+        return new ResponseEntity<>(usuarioService.guardarUsuario(usuario), HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
+    public void deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
-        return ResponseEntity.noContent().build();
     }
 }
