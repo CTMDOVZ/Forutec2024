@@ -21,7 +21,7 @@ public class UsuarioControllerIntegrationTest {
 //hola
     @Autowired
     private MockMvc mockMvc;
-
+//chau
     @Autowired
     private UsuarioRepository usuarioRepository;
 
