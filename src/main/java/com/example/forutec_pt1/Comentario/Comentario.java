@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Comentario.class)
 public class Comentario {
-    // Getters y setters
+    // Getters y setters hula
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
