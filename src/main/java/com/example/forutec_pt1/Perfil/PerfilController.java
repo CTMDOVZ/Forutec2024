@@ -15,18 +15,22 @@ public class PerfilController {
 
     @Autowired
     private PerfilService perfilService;
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
+
     @GetMapping
     public ResponseEntity<List<PerfilDTO>> getAllPerfiles() {
         List<PerfilDTO> perfiles = perfilService.getAllPerfiles();
         return new ResponseEntity<>(perfiles, HttpStatus.OK);
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<PerfilDTO> getPerfilById(@PathVariable Long id) {
         PerfilDTO perfil = perfilService.getPerfilById(id);
         return ResponseEntity.ok(perfil);
     }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<PerfilDTO> savePerfil(@RequestBody PerfilDTO perfilDTO) {
