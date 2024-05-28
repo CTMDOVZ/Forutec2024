@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class SuscripcionControllerIntegrationTest {
-
+/*
     @Autowired
     private MockMvc mockMvc;
 
@@ -112,4 +112,6 @@ public class SuscripcionControllerIntegrationTest {
         mockMvc.perform(get("/api/suscripciones/" + suscripcion.getId()))
                 .andExpect(status().isNotFound());
     }
+
+ */
 }

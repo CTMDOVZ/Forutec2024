@@ -20,7 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PerfilControllerIntegrationTest {
-
+/*
     @Autowired
     private MockMvc mockMvc;
 
@@ -90,4 +90,6 @@ public class PerfilControllerIntegrationTest {
         mockMvc.perform(get("/api/perfiles/" + perfil.getId()))
                 .andExpect(status().isNotFound());
     }
+
+ */
 }

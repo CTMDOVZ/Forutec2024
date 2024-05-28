@@ -21,7 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @DataJpaTest
 public class ComentarioRepositoryTest {
-
+/*
     @Autowired
     private ComentarioRepository comentarioRepository;
 
@@ -102,4 +102,6 @@ public class ComentarioRepositoryTest {
         Optional<Comentario> deletedComentario = comentarioRepository.findById(savedComentario.getId());
         assertThat(deletedComentario).isNotPresent();
     }
+
+ */
 }

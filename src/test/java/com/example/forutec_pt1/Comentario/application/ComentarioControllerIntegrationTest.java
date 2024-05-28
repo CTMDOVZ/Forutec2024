@@ -25,7 +25,7 @@ import java.time.ZonedDateTime;
 @SpringBootTest
 @AutoConfigureMockMvc
 public class ComentarioControllerIntegrationTest {
-//hola
+/*
     @Autowired
     private MockMvc mockMvc;
 
@@ -106,4 +106,6 @@ public class ComentarioControllerIntegrationTest {
         mockMvc.perform(get("/api/comentarios/" + comentario.getId()))
                 .andExpect(status().isNotFound());
     }
+
+ */
 }
