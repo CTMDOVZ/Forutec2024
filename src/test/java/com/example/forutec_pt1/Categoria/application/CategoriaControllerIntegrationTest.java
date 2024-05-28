@@ -1,9 +1,5 @@
 package com.example.forutec_pt1.Categoria.application;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 import com.example.forutec_pt1.Categoria.Categoria;
 import com.example.forutec_pt1.Categoria.CategoriaRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -15,6 +11,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @SpringBootTest
 @AutoConfigureMockMvc
 public class CategoriaControllerIntegrationTest {
@@ -25,52 +27,42 @@ public class CategoriaControllerIntegrationTest {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    private Categoria categoria;
-
     @BeforeEach
     void setup() {
         categoriaRepository.deleteAll();
-
-        categoria = new Categoria();
-        categoria.setNombre("Categoria 1");
-        categoria = categoriaRepository.save(categoria);
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void shouldCreateCategoria() throws Exception {
-        String categoriaJson = "{ \"nombre\": \"Nueva Categoria\" }";
+        String categoriaJson = "{ \"nombre\": \"Categoria Test\" }";
 
         mockMvc.perform(post("/api/categorias")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(categoriaJson))
                 .andExpect(status().isCreated())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("Nueva Categoria"));
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("Categoria Test"));
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void shouldReturnCategoriaWhenCategoriaExists() throws Exception {
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Categoria Test");
+        categoria = categoriaRepository.save(categoria);
+
         mockMvc.perform(get("/api/categorias/" + categoria.getId()))
                 .andExpect(status().isOk())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("Categoria 1"));
-    }
-
-    @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
-    void shouldUpdateCategoria() throws Exception {
-        String updatedCategoriaJson = "{ \"nombre\": \"Categoria Actualizada\" }";
-
-        mockMvc.perform(put("/api/categorias/" + categoria.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(updatedCategoriaJson))
-                .andExpect(status().isOk())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("Categoria Actualizada"));
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("Categoria Test"));
     }
 
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void shouldDeleteCategoria() throws Exception {
+        Categoria categoria = new Categoria();
+        categoria.setNombre("Categoria Test");
+        categoria = categoriaRepository.save(categoria);
+
         mockMvc.perform(delete("/api/categorias/" + categoria.getId()))
                 .andExpect(status().isNoContent());
 

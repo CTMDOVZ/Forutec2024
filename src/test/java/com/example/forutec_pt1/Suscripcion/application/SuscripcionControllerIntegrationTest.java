@@ -1,17 +1,13 @@
 package com.example.forutec_pt1.Suscripcion.application;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import com.example.forutec_pt1.Suscripcion.Suscripcion;
-import com.example.forutec_pt1.Suscripcion.SuscripcionRepository;
-import com.example.forutec_pt1.Usuario.Usuario;
-import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import com.example.forutec_pt1.Categoria.Categoria;
 import com.example.forutec_pt1.Categoria.CategoriaRepository;
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Publicacion.PublicacionRepository;
+import com.example.forutec_pt1.Suscripcion.Suscripcion;
+import com.example.forutec_pt1.Suscripcion.SuscripcionRepository;
+import com.example.forutec_pt1.Usuario.Usuario;
+import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +18,10 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -74,13 +74,13 @@ public class SuscripcionControllerIntegrationTest {
     @Test
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void shouldCreateSuscripcion() throws Exception {
-        String suscripcionJson = "{ \"usuario\": {\"id\": " + usuario.getId() + "}, \"categoria\": {\"id\": " + categoria.getId() + "}, \"publicacion\": {\"id\": " + publicacion.getId() + "} }";
+        String suscripcionJson = "{ \"usuarioId\": " + usuario.getId() + ", \"categoriaId\": " + categoria.getId() + ", \"publicacionId\": " + publicacion.getId() + " }";
 
         mockMvc.perform(post("/api/suscripciones")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(suscripcionJson))
                 .andExpect(status().isCreated())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("Categoria 1"));
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("\"categoriaId\":" + categoria.getId()));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class SuscripcionControllerIntegrationTest {
 
         mockMvc.perform(get("/api/suscripciones/" + suscripcion.getId()))
                 .andExpect(status().isOk())
-                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("Categoria 1"));
+                .andExpect(result -> assertThat(result.getResponse().getContentAsString()).contains("\"categoriaId\":" + categoria.getId()));
     }
 
     @Test
