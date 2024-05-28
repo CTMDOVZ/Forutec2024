@@ -54,9 +54,9 @@ public class SuscripcionControllerIntegrationTest {
         usuarioRepository.deleteAll();
 
         usuario = new Usuario();
-        usuario.setNombre("Usuario 1");
-        usuario.setApellido("abs");
-        usuario.setCorreoInstitucional("alexander.munnoz12@gmail.com");
+        usuario.setFirstname("Usuario 1");
+        usuario.setLastname("abs");
+        usuario.setEmail("alexander.munnoz12@gmail.com");
         usuario.setContrasena("amb");
         usuario = usuarioRepository.save(usuario);
 

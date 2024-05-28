@@ -22,9 +22,9 @@ public class SuscripcionTest {
     void setUp() {
         usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setNombre("Usuario 1");
-        usuario.setApellido("Apellido 1");
-        usuario.setCorreoInstitucional("usuario1@example.com");
+        usuario.setFirstname("Usuario 1");
+        usuario.setLastname("Apellido 1");
+        usuario.setEmail("usuario1@example.com");
         usuario.setContrasena("password");
 
         categoria = new Categoria();
@@ -62,7 +62,7 @@ public class SuscripcionTest {
 
     @Test
     void shouldReturnSuscripcionInformation() {
-        assertThat(suscripcion.getUsuario().getNombre()).isEqualTo("Usuario 1");
+        assertThat(suscripcion.getUsuario().getFirstname()).isEqualTo("Usuario 1");
         assertThat(suscripcion.getCategoria().getNombre()).isEqualTo("Categoria 1");
         assertThat(suscripcion.getPublicacion().getContenido()).isEqualTo("Contenido de la publicación");
     }

@@ -42,9 +42,9 @@ public class ComentarioRepositoryTest {
         usuarioRepository.deleteAll();
 
         usuario = new Usuario();
-        usuario.setNombre("Usuario 1");
-        usuario.setApellido("Apellido 1");
-        usuario.setCorreoInstitucional("usuario1@example.com");
+        usuario.setFirstname("Usuario 1");
+        usuario.setLastname("Apellido 1");
+        usuario.setEmail("usuario1@example.com");
         usuario.setContrasena("password");
         usuario = usuarioRepository.save(usuario);
 

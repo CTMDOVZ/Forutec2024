@@ -26,9 +26,9 @@ public class UsuarioRepositoryTest {
         usuarioRepository.deleteAll();
 
         usuario = new Usuario();
-        usuario.setNombre("Usuario 1");
-        usuario.setApellido("Apellido 1");
-        usuario.setCorreoInstitucional("usuario1@example.com");
+        usuario.setFirstname("Usuario 1");
+        usuario.setLastname("Apellido 1");
+        usuario.setEmail("usuario1@example.com");
         usuario.setContrasena("password");
     }
 
@@ -38,8 +38,8 @@ public class UsuarioRepositoryTest {
         Usuario savedUsuario = usuarioRepository.save(usuario);
         assertThat(savedUsuario).isNotNull();
         assertThat(savedUsuario.getId()).isNotNull();
-        assertThat(savedUsuario.getNombre()).isEqualTo("Usuario 1");
-        assertThat(savedUsuario.getApellido()).isEqualTo("Apellido 1");
+        assertThat(savedUsuario.getFirstname()).isEqualTo("Usuario 1");
+        assertThat(savedUsuario.getLastname()).isEqualTo("Apellido 1");
     }
 
     //Verifica que se pueda encontrar un usuario por su ID
@@ -48,8 +48,8 @@ public class UsuarioRepositoryTest {
         Usuario savedUsuario = usuarioRepository.save(usuario);
         Optional<Usuario> foundUsuario = usuarioRepository.findById(savedUsuario.getId());
         assertThat(foundUsuario).isPresent();
-        assertThat(foundUsuario.get().getNombre()).isEqualTo("Usuario 1");
-        assertThat(foundUsuario.get().getApellido()).isEqualTo("Apellido 1");
+        assertThat(foundUsuario.get().getFirstname()).isEqualTo("Usuario 1");
+        assertThat(foundUsuario.get().getLastname()).isEqualTo("Apellido 1");
     }
 
     //Verifica que se lance una excepción al intentar guardar un usuario con un correo institucional duplicado
@@ -58,9 +58,9 @@ public class UsuarioRepositoryTest {
         usuarioRepository.save(usuario);
 
         Usuario anotherUsuario = new Usuario();
-        anotherUsuario.setNombre("Usuario 2");
-        anotherUsuario.setApellido("Apellido 2");
-        anotherUsuario.setCorreoInstitucional("usuario1@example.com");
+        anotherUsuario.setFirstname("Usuario 2");
+        anotherUsuario.setLastname("Apellido 2");
+        anotherUsuario.setEmail("usuario1@example.com");
         anotherUsuario.setContrasena("password2");
 
         assertThrows(DataIntegrityViolationException.class, () -> usuarioRepository.save(anotherUsuario));

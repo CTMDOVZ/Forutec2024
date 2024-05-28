@@ -4,7 +4,7 @@ import com.example.forutec_pt1.Categoria.Categoria;
 import com.example.forutec_pt1.Categoria.CategoriaRepository;
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Publicacion.PublicacionRepository;
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exception.ResourceNotFoundException;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +19,11 @@ public class SuscripcionService {
     @Autowired
     private SuscripcionRepository suscripcionRepository;
     @Autowired
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
     @Autowired
-    CategoriaRepository categoriaRepository;
+    private CategoriaRepository categoriaRepository;
     @Autowired
-    PublicacionRepository publicacionRepository;
+    private PublicacionRepository publicacionRepository;
 
 
     public List<SuscripcionDTO> getAllSuscripciones() {

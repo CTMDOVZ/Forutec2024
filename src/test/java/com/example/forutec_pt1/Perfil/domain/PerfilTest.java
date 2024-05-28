@@ -16,9 +16,9 @@ public class PerfilTest {
     void setUp() {
         usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setNombre("Usuario 1");
-        usuario.setApellido("Apellido 1");
-        usuario.setCorreoInstitucional("usuario1@example.com");
+        usuario.setFirstname("Usuario 1");
+        usuario.setLastname("Apellido 1");
+        usuario.setEmail("usuario1@example.com");
         usuario.setContrasena("password");
 
         perfil = new Perfil();
@@ -44,8 +44,8 @@ public class PerfilTest {
     //Verifica que se pueda obtener la información del usuario asociado al perfil
     @Test
     void shouldReturnUsuarioInformation() {
-        assertThat(perfil.getUsuario().getNombre()).isEqualTo("Usuario 1");
-        assertThat(perfil.getUsuario().getApellido()).isEqualTo("Apellido 1");
-        assertThat(perfil.getUsuario().getCorreoInstitucional()).isEqualTo("usuario1@example.com");
+        assertThat(perfil.getUsuario().getFirstname()).isEqualTo("Usuario 1");
+        assertThat(perfil.getUsuario().getLastname()).isEqualTo("Apellido 1");
+        assertThat(perfil.getUsuario().getEmail()).isEqualTo("usuario1@example.com");
     }
 }

@@ -14,24 +14,24 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
     public List<UsuarioDTO> getAllUsuarios() {
         return usuarioService.getAllUsuarios();
     }
-
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable Long id) {
         UsuarioDTO usuario = usuarioService.getUsuarioById(id);
         return ResponseEntity.ok(usuario);
     }
-
+    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @PostMapping
     public ResponseEntity<UsuarioDTO> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO savedUsuario = usuarioService.saveUsuario(usuarioDTO);
         return ResponseEntity.status(201).body(savedUsuario);
     }
-
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);

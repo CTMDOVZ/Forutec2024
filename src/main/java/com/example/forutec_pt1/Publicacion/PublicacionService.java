@@ -1,6 +1,6 @@
 package com.example.forutec_pt1.Publicacion;
 
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exception.ResourceNotFoundException;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;

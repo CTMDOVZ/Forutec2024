@@ -50,9 +50,9 @@ public class ComentarioControllerIntegrationTest {
 
         // Creación de usuario y publicación de prueba
         usuario = new Usuario();
-        usuario.setNombre("Usuario 1");
+        usuario.setFirstname("Usuario 1");
         usuario.setContrasena("abs");
-        usuario.setCorreoInstitucional("alexander.munnoz12@gmail.com");
+        usuario.setEmail("alexander.munnoz12@gmail.com");
         usuario.setContrasena("amb");
         usuario = usuarioRepository.save(usuario);
 

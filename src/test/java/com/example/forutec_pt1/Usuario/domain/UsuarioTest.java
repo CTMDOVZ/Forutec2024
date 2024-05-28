@@ -14,37 +14,37 @@ public class UsuarioTest {
     void setUp() {
         usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setNombre("Usuario 1");
-        usuario.setApellido("Apellido 1");
-        usuario.setCorreoInstitucional("usuario1@example.com");
+        usuario.setFirstname("Usuario 1");
+        usuario.setLastname("Apellido 1");
+        usuario.setEmail("usuario1@example.com");
         usuario.setContrasena("password");
     }
 
     //Verifica que se pueda crear un usuario con datos válidos
     @Test
     void shouldCreateUsuarioWithValidData() {
-        assertThat(usuario.getNombre()).isEqualTo("Usuario 1");
-        assertThat(usuario.getApellido()).isEqualTo("Apellido 1");
-        assertThat(usuario.getCorreoInstitucional()).isEqualTo("usuario1@example.com");
+        assertThat(usuario.getFirstname()).isEqualTo("Usuario 1");
+        assertThat(usuario.getLastname()).isEqualTo("Apellido 1");
+        assertThat(usuario.getEmail()).isEqualTo("usuario1@example.com");
         assertThat(usuario.getContrasena()).isEqualTo("password");
     }
 
     //Verifica que se pueda actualizar el correo institucional de un usuario
     @Test
     void shouldUpdateCorreoInstitucional() {
-        usuario.setCorreoInstitucional("nuevo_correo@example.com");
-        assertThat(usuario.getCorreoInstitucional()).isEqualTo("nuevo_correo@example.com");
+        usuario.setEmail("nuevo_correo@example.com");
+        assertThat(usuario.getEmail()).isEqualTo("nuevo_correo@example.com");
     }
 
     //Verifica que se pueda actualizar el nombre de un usuario
     @Test
     void shouldReturnNombre() {
-        assertThat(usuario.getNombre()).isEqualTo("Usuario 1");
+        assertThat(usuario.getFirstname()).isEqualTo("Usuario 1");
     }
 
     //Verifica que se pueda obtener el apellido de un usuario
     @Test
     void shoulReturnApellido() {
-        assertThat(usuario.getApellido()).isEqualTo("Apellido 1");
+        assertThat(usuario.getLastname()).isEqualTo("Apellido 1");
     }
 }

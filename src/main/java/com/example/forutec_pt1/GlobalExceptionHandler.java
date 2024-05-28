@@ -1,5 +1,6 @@
 package com.example.forutec_pt1;
 
+import com.example.forutec_pt1.Exception.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

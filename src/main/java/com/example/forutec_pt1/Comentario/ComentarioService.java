@@ -1,7 +1,7 @@
 package com.example.forutec_pt1.Comentario;
 
 import com.example.forutec_pt1.Publicacion.Publicacion;
-import com.example.forutec_pt1.ResourceNotFoundException;
+import com.example.forutec_pt1.Exception.ResourceNotFoundException;
 import com.example.forutec_pt1.Suscripcion.Suscripcion;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Publicacion.PublicacionRepository;
@@ -70,7 +70,7 @@ public class ComentarioService {
 
         List<Suscripcion> suscripciones = suscripcionRepository.findByPublicacion(publicacion);
         for (Suscripcion suscripcion : suscripciones) {
-            String email = suscripcion.getUsuario().getCorreoInstitucional();
+            String email = suscripcion.getUsuario().getEmail();
             if (email != null && !email.isEmpty()) {
                 CommentEmailEvent event = new CommentEmailEvent(email, comentario.getContenido());
                 eventPublisher.publishEvent(event);

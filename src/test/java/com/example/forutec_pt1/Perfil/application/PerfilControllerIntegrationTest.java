@@ -39,9 +39,9 @@ public class PerfilControllerIntegrationTest {
         usuarioRepository.deleteAll();
 
         usuario = new Usuario();
-        usuario.setNombre("Usuario 1");
-        usuario.setApellido("Apellido 1");
-        usuario.setCorreoInstitucional("usuario1@example.com");
+        usuario.setFirstname("Usuario 1");
+        usuario.setLastname("Apellido 1");
+        usuario.setEmail("usuario1@example.com");
         usuario.setContrasena("password");
         usuario = usuarioRepository.save(usuario);
 
@@ -54,13 +54,13 @@ public class PerfilControllerIntegrationTest {
 
 //hola
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = {"ROLE_ADMIN"})
     void shouldCreatePerfil() throws Exception {
         // Crear un nuevo usuario para evitar duplicados
         Usuario nuevoUsuario = new Usuario();
-        nuevoUsuario.setNombre("Usuario 2");
-        nuevoUsuario.setApellido("Apellido 2");
-        nuevoUsuario.setCorreoInstitucional("usuario2@example.com");
+        nuevoUsuario.setFirstname("Usuario 2");
+        nuevoUsuario.setLastname("Apellido 2");
+        nuevoUsuario.setEmail("usuario2@example.com");
         nuevoUsuario.setContrasena("password2");
         nuevoUsuario = usuarioRepository.save(nuevoUsuario);
 
@@ -74,7 +74,7 @@ public class PerfilControllerIntegrationTest {
     }
 
     @Test
-    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @WithMockUser(username = "admin", roles = {"ROLE_ADMIN"})
     void shouldReturnPerfilWhenPerfilExists() throws Exception {
         mockMvc.perform(get("/api/perfiles/" + perfil.getId()))
                 .andExpect(status().isOk())
