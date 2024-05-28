@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 @RequestMapping("/api/perfiles")
@@ -23,14 +24,14 @@ public class PerfilController {
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @GetMapping("/{id}")
     public ResponseEntity<PerfilDTO> getPerfilById(@PathVariable Long id) {
-        PerfilDTO perfilDTO = perfilService.getPerfilById(id);
-        return new ResponseEntity<>(perfilDTO, HttpStatus.OK);
+        PerfilDTO perfil = perfilService.getPerfilById(id);
+        return ResponseEntity.ok(perfil);
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<PerfilDTO> savePerfil(@RequestBody PerfilDTO perfilDTO) {
         PerfilDTO savedPerfil = perfilService.savePerfil(perfilDTO);
-        return new ResponseEntity<>(savedPerfil, HttpStatus.CREATED);
+        return ResponseEntity.status(201).body(savedPerfil);
     }
 
     @PutMapping("/{id}")
@@ -42,6 +43,6 @@ public class PerfilController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePerfil(@PathVariable Long id) {
         perfilService.deletePerfil(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 }

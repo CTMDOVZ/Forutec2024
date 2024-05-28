@@ -2,9 +2,9 @@ package com.example.forutec_pt1.Suscripcion;
 
 import com.example.forutec_pt1.Categoria.Categoria;
 import com.example.forutec_pt1.Categoria.CategoriaRepository;
-import com.example.forutec_pt1.Exceptions.ResourceNotFoundException;
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Publicacion.PublicacionRepository;
+import com.example.forutec_pt1.ResourceNotFoundException;
 import com.example.forutec_pt1.Usuario.Usuario;
 import com.example.forutec_pt1.Usuario.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,15 @@ public class SuscripcionService {
     @Autowired
     private PublicacionRepository publicacionRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private CategoriaRepository categoriaRepository;
+
+    @Autowired
+    private PublicacionRepository publicacionRepository;
+
     public List<SuscripcionDTO> getAllSuscripciones() {
         return suscripcionRepository.findAll().stream()
                 .map(this::convertToDTO)
@@ -38,7 +47,18 @@ public class SuscripcionService {
     }
 
     public SuscripcionDTO saveSuscripcion(SuscripcionDTO suscripcionDTO) {
+        Usuario usuario = usuarioRepository.findById(suscripcionDTO.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con id: " + suscripcionDTO.getUsuarioId()));
+        Categoria categoria = categoriaRepository.findById(suscripcionDTO.getCategoriaId())
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada con id: " + suscripcionDTO.getCategoriaId()));
+        Publicacion publicacion = publicacionRepository.findById(suscripcionDTO.getPublicacionId())
+                .orElseThrow(() -> new ResourceNotFoundException("Publicacion no encontrada con id: " + suscripcionDTO.getPublicacionId()));
+
         Suscripcion suscripcion = convertToEntity(suscripcionDTO);
+        suscripcion.setUsuario(usuario);
+        suscripcion.setCategoria(categoria);
+        suscripcion.setPublicacion(publicacion);
+
         Suscripcion savedSuscripcion = suscripcionRepository.save(suscripcion);
         return convertToDTO(savedSuscripcion);
     }
@@ -72,6 +92,7 @@ public class SuscripcionService {
         suscripcionDTO.setId(suscripcion.getId());
         suscripcionDTO.setUsuarioId(suscripcion.getUsuario().getId());
         suscripcionDTO.setCategoriaId(suscripcion.getCategoria().getId());
+        suscripcionDTO.setPublicacionId(suscripcion.getPublicacion().getId());
         return suscripcionDTO;
     }
 
@@ -82,6 +103,8 @@ public class SuscripcionService {
         suscripcion.getUsuario().setId(suscripcionDTO.getUsuarioId());
         suscripcion.setCategoria(new Categoria());
         suscripcion.getCategoria().setId(suscripcionDTO.getCategoriaId());
+        suscripcion.setPublicacion(new Publicacion());
+        suscripcion.getPublicacion().setId(suscripcionDTO.getPublicacionId());
         return suscripcion;
     }
 }

@@ -1,9 +1,7 @@
 package com.example.forutec_pt1.Usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,9 +14,14 @@ public class UsuarioController {
     private UsuarioService usuarioService;
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping
-    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
-        List<UsuarioDTO> usuarios = usuarioService.getAllUsuarios();
-        return new ResponseEntity<>(usuarios, HttpStatus.OK);
+    public List<UsuarioDTO> getAllUsuarios() {
+        return usuarioService.getAllUsuarios();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<UsuarioDTO> getUsuario(@PathVariable Long id) {
+        UsuarioDTO usuario = usuarioService.getUsuarioById(id);
+        return ResponseEntity.ok(usuario);
     }
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
     @GetMapping("{id}")
@@ -30,25 +33,13 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioDTO> saveUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO savedUsuario = usuarioService.saveUsuario(usuarioDTO);
-        return new ResponseEntity<>(savedUsuario, HttpStatus.CREATED);
+        return ResponseEntity.status(201).body(savedUsuario);
     }
-    @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")
-    @PutMapping("{id}")
-    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioDTO updatedUsuario = usuarioService.updateUsuario(id, usuarioDTO);
-        return new ResponseEntity<>(updatedUsuario, HttpStatus.OK);
-    }
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @DeleteMapping(value = "/{id}")
+
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteUsuario(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    @PreAuthorize("hasRole('ROLE_USER')")
-    @PatchMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> patchUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDTO) {
-        UsuarioDTO patchedUsuario = usuarioService.patchUsuario(id, usuarioDTO);
-        return new ResponseEntity<>(patchedUsuario, HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 
     @PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')")

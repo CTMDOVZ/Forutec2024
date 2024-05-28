@@ -3,10 +3,13 @@ package com.example.forutec_pt1.Suscripcion;
 import com.example.forutec_pt1.Categoria.Categoria;
 import com.example.forutec_pt1.Publicacion.Publicacion;
 import com.example.forutec_pt1.Usuario.Usuario;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 
 
 @Entity
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Suscripcion.class)
 public class Suscripcion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

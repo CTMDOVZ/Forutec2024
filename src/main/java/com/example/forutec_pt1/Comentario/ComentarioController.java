@@ -1,9 +1,7 @@
 package com.example.forutec_pt1.Comentario;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,15 +20,15 @@ public class ComentarioController {
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @GetMapping("/{id}")
-    public ResponseEntity<ComentarioDTO> getComentarioById(@PathVariable Long id) {
-        ComentarioDTO comentarioDTO = comentarioService.getComentarioById(id);
-        return new ResponseEntity<>(comentarioDTO, HttpStatus.OK);
+    public ResponseEntity<ComentarioDTO> getComentario(@PathVariable Long id) {
+        ComentarioDTO comentario = comentarioService.getComentarioById(id);
+        return ResponseEntity.ok(comentario);
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @PostMapping
     public ResponseEntity<ComentarioDTO> saveComentario(@RequestBody ComentarioDTO comentarioDTO) {
         ComentarioDTO savedComentario = comentarioService.saveComentario(comentarioDTO);
-        return new ResponseEntity<>(savedComentario, HttpStatus.CREATED);
+        return ResponseEntity.status(201).body(savedComentario);
     }
     @PreAuthorize("hasRole('ROLE_ADMIN')or hasRole('ROLE_USER')")
     @PutMapping("/{id}")
@@ -42,7 +40,7 @@ public class ComentarioController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComentario(@PathVariable Long id) {
         comentarioService.deleteComentario(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.noContent().build();
     }
 
 }

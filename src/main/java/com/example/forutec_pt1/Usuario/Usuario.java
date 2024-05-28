@@ -18,10 +18,8 @@ import java.util.Collection;
 import java.util.List;
 @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Usuario.class)
 @Entity
-@Getter
-@Setter
-
-public class Usuario implements UserDetails{
+@JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id", scope = Usuario.class)
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
