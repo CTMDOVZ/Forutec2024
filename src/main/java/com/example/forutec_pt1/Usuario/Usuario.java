@@ -30,6 +30,9 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario")
     private List<Suscripcion> suscripciones;
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Publicacion> Publicacion;
+
     public Long getId() {
         return id;
     }
